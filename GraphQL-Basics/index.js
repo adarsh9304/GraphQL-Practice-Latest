@@ -3,6 +3,7 @@ import { expressMiddleware } from '@apollo/server/express4';
 import bodyParser from 'body-parser';
 import express from 'express';
 import cors from 'cors';
+import { uuid } from 'uuidv4';
 
 const app = express();
 
@@ -56,6 +57,10 @@ const typeDefs = `
     getPostData:[Post]
   }
 
+  type Mutation{
+    createUser(name:String,email:String):user!
+  }
+
   type Post{
    id:ID!
     title:String
@@ -91,6 +96,28 @@ const resolvers = {
     getPostData() {
       return posts;
     },
+  },
+  Mutation:{
+
+    createUser(parent,args,ctx,info){
+      
+      const isEmailExist=userarray.some((user)=>user.email===args.email);
+      
+      if(isEmailExist) {
+        throw new Error('Email has been taken')
+      }
+      
+      const user={
+        id:uuid(),
+        name:args.name,
+        email:args.email
+      }
+      
+      userarray.push(user);
+      
+      return user;
+    }
+
   },
   Post: {
     author(parent, args, ctx, info) {
