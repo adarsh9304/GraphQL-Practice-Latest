@@ -58,7 +58,12 @@ const typeDefs = `
   }
 
   type Mutation{
-    createUser(name:String,email:String):user!
+    createUser(data:createUserInput):user!
+  }
+
+  input createUserInput {
+  name:String,
+  email:String
   }
 
   type Post{
@@ -101,7 +106,7 @@ const resolvers = {
 
     createUser(parent,args,ctx,info){
       
-      const isEmailExist=userarray.some((user)=>user.email===args.email);
+      const isEmailExist=userarray.some((user)=>user.email===args.data.email);
       
       if(isEmailExist) {
         throw new Error('Email has been taken')
@@ -109,8 +114,8 @@ const resolvers = {
       
       const user={
         id:uuid(),
-        name:args.name,
-        email:args.email
+        name:args.data.name,
+        email:args.data.email
       }
       
       userarray.push(user);
