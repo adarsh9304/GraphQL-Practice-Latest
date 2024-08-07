@@ -1,0 +1,28 @@
+type Query {
+  greeting(name: String): String!
+  me: User
+  getUserData: [User]
+  getPostData: [Post]
+}
+
+type Mutation {
+  createUser(data: CreateUserInput): User!
+  deleteUser(id: ID!): User!
+}
+
+input CreateUserInput {
+  name: String
+  email: String
+}
+type Post {
+  id: ID!
+  title: String
+  body: String
+  author: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+}
