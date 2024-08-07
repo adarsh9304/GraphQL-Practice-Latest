@@ -2,12 +2,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 const Mutation = {
   createUser(parent, args, { data }, info) {
-    const isEmailExist = data.userarray.some(user => user.email === args.data.email);
+    const isEmailExist = data.userarray.some(
+      user => user.email === args.data.email,
+    );
 
     if (isEmailExist) {
       throw new Error('Email has been taken');
     }
-
     const user = {
       id: uuidv4(),
       name: args.data.name,
@@ -28,6 +29,12 @@ const Mutation = {
     const [deletedUser] = data.userarray.splice(userIndex, 1);
     return deletedUser;
   },
+  incrementCount: (parent, args, { count, pubsub }, info) => {
+    count += 1;
+    pubsub.publish('count_Updated', { countUpdated: count });
+    return count;
+  },
+
 };
 
 export default Mutation;

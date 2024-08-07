@@ -6,6 +6,8 @@ const Query = {
         email: 'adarsh@gmail.com',
       };
     },
+    hello: () => 'Hello world!',
+    
     getUserData(parent, args, {data}, info) {
       console.log('data in getUserData:', data); 
       if (!data || !data.userarray) {

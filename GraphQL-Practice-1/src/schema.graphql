@@ -1,13 +1,19 @@
 type Query {
   greeting(name: String): String!
   me: User
+  hello:String!
   getUserData: [User]
   getPostData: [Post]
+}
+
+type Subscription{
+    countUpdated:Int
 }
 
 type Mutation {
   createUser(data: CreateUserInput): User!
   deleteUser(id: ID!): User!
+  incrementCount:Int
 }
 
 input CreateUserInput {
