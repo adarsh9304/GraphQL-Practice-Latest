@@ -59,6 +59,7 @@ const typeDefs = `
 
   type Mutation{
     createUser(data:createUserInput):user!
+    deleteUser(id:ID):user!
   }
 
   input createUserInput {
@@ -121,7 +122,19 @@ const resolvers = {
       userarray.push(user);
       
       return user;
+    },
+
+    deleteUser(parent, args, ctx, info) {
+      const userIndex = userarray.findIndex((user) => user.id === args.id);
+    
+      if (userIndex === -1) {
+        throw new Error('User not found');
+      }
+    
+      const [deletedUser] = userarray.splice(userIndex, 1);
+      return deletedUser;
     }
+    
 
   },
   Post: {
